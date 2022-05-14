@@ -1,6 +1,8 @@
 // Package game contains the rules and everything needed to play the Cat's Game
 package game
 
+import "fmt"
+
 // Position indicates a position on Board
 type Position uint
 
@@ -195,11 +197,11 @@ func (g Game) String() string {
 		}
 
 		if g.player1.contains(1 << i) {
-			out += "  ❌  "
+			out += "  x  "
 		} else if g.player2.contains(1 << i) {
-			out += "  ⭕  "
+			out += "  o  "
 		} else {
-			out += "  ❔  "
+			out += fmt.Sprintf("  %d  ", i+1)
 		}
 	}
 
