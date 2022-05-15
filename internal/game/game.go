@@ -73,7 +73,7 @@ type State int
 
 // Is indicates if the current State match to composite state
 func (s State) Is(state State) bool {
-	return s&state == s
+	return s&state == state
 }
 
 // Supported values for State, defines the
