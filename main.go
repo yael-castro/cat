@@ -10,22 +10,26 @@ func main() {
 	g := game.New()
 
 	var (
-		state    = game.NoState
-		position = game.Position(0)
+		state         = game.Continue
+		position uint = 0
 	)
 
 	fmt.Println(g)
 
-	for !state.Is(game.Draw | game.Player1Won | game.Player2Won) {
+	for state.Is(game.Continue) {
 		if g.Turn() {
 			fmt.Print("\nPlayer 1: ")
 		} else {
 			fmt.Print("\nPlayer 2: ")
 		}
 
-		fmt.Scan(&position)
+		_, err := fmt.Scan(&position)
+		if err != nil {
+			fmt.Printf("%v\n%v\n", err, position)
+			continue
+		}
 
-		state = g.Play(1 << position >> 1)
+		state = g.Play(position)
 		if state.Is(game.InvalidTurn) {
 			fmt.Printf(`Position "%v" does not exists`, position)
 		}
@@ -42,7 +46,7 @@ func main() {
 		fmt.Println("\nPlayer 1 won!")
 	case game.Player2Won:
 		fmt.Println("\nPlayer 2 won!")
-	default:
+	case game.Player1Won | game.Player2Won:
 		fmt.Println("\nDraw!")
 	}
 }
