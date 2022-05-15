@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/yael-castro/cat/internal/game"
+	"github.com/yael-castro/tic-tac-toe/internal/game"
 )
 
 func main() {
