@@ -1,32 +1,30 @@
-// Package game contains the rules and everything needed to play the Cat's Game
-package game
+// Package xogo contains the rules and everything needed to play the Cat's Game
+package xogo
 
 import "fmt"
 
-// Board is a bitmask used to represents a player board
+// Board is a bitmask used to represent a player board
 //
 // The board can be imagined as shown below... Where each space in the board can be selected by position
 //
-//  0  |  1  |  2
-//  3  |  4  |  5
-//  6  |  7  |  8
+//	0  |  1  |  2
+//	3  |  4  |  5
+//	6  |  7  |  8
 //
-// But it is actually a bitmask of 9 bits that use each bit to represents a space in the board
+// # But it is actually a bitmask of 9 bits that use each bit to represents a space in the board
 //
 // Board position | 8 7 6 5 4 3 2 1 0
 // Bitmask        | 0 0 0 0 0 0 0 0 1
-//
 type Board uint
 
 // IsFull returns true if all positions on the board all full
 func (b Board) IsFull() bool {
-	return int(b) == int(0b111_111_111)
+	return b == 0b111_111_111
 }
 
 // Contains indicates if a position on the board is already taken
 func (b Board) Contains(bit uint) bool {
-	b2 := Board(1 << bit)
-	return b&b2 == b2
+	return b.contains(1 << bit)
 }
 
 // contains indicates if a raw space on the board is occuped
@@ -68,15 +66,7 @@ func (b Board) IsComplete() bool {
 	return false
 }
 
-// State indicates the game state
-type State int
-
-// Is indicates if the current State match to composite state
-func (s State) Is(state State) bool {
-	return s&state == state
-}
-
-// Supported values for State, defines the
+// Supported values for State, defines the game state
 const (
 	// Continue indicates the success turn
 	Continue State = 1 << iota
@@ -90,6 +80,16 @@ const (
 	NoSpace
 )
 
+// State indicates the game state
+type State int
+
+// Is indicates if the current State match to composite state
+func (s State) Is(state State) bool {
+	return s&state == state
+}
+
+var _ fmt.Stringer = (*Game)(nil)
+
 // Game controls the game flow and the game rules
 type Game struct {
 	turn    bool
@@ -97,27 +97,22 @@ type Game struct {
 	player2 Board
 }
 
-// New returns an instance of Game
-func New() *Game {
-	return &Game{}
-}
-
 // Turn returns the current player turn
 //
-// If returns true, is the turn of player 1
+// # If returns true, is the turn of player 1
 //
 // If returns false, is the turn of player 2
-func (g Game) Turn() bool {
+func (g *Game) Turn() bool {
 	return !g.turn
 }
 
 // Player1 returns the Board of player 1
-func (g Game) Player1() Board {
+func (g *Game) Player1() Board {
 	return g.player1
 }
 
 // Player2 returns the Board of player 2
-func (g Game) Player2() Board {
+func (g *Game) Player2() Board {
 	return g.player2
 }
 
@@ -167,7 +162,7 @@ func (g *Game) Reset() {
 }
 
 // String returns the string representation for the both boards
-func (g Game) String() string {
+func (g *Game) String() string {
 	out := ""
 
 	for i := uint(0); i < 9; i++ {

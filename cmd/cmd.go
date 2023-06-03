@@ -2,21 +2,19 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/yael-castro/tic-tac-toe/internal/game"
+	"github.com/yael-castro/xogo"
 )
 
 func main() {
-	g := game.New()
-
 	var (
-		state         = game.Continue
-		position uint = 0
+		position uint
+		g        xogo.Game
+		state    = xogo.Continue
 	)
 
 	fmt.Println(g)
 
-	for state.Is(game.Continue) {
+	for state.Is(xogo.Continue) {
 		if g.Turn() {
 			fmt.Print("\nPlayer 1: ")
 		} else {
@@ -30,11 +28,11 @@ func main() {
 		}
 
 		state = g.Play(position)
-		if state.Is(game.InvalidTurn) {
+		if state.Is(xogo.InvalidTurn) {
 			fmt.Printf(`Position "%v" does not exists`, position)
 		}
 
-		if state.Is(game.NoSpace) {
+		if state.Is(xogo.NoSpace) {
 			fmt.Printf(`Position "%v" is already taken`, position)
 		}
 
@@ -42,11 +40,11 @@ func main() {
 	}
 
 	switch state {
-	case game.Player1Won:
+	case xogo.Player1Won:
 		fmt.Println("\nPlayer 1 won!")
-	case game.Player2Won:
+	case xogo.Player2Won:
 		fmt.Println("\nPlayer 2 won!")
-	case game.Player1Won | game.Player2Won:
+	case xogo.Player1Won | xogo.Player2Won:
 		fmt.Println("\nDraw!")
 	}
 }

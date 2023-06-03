@@ -1,14 +1,21 @@
-# tic-tac-toe
-The popular game Tic-Tac-Toe written in Golang using bitmasks to represent the board and player moves
-<hr>
+# XOGO:  X, O and GO
+[![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg)](https://pkg.go.dev/github.com/yael-castro/xogo)
 
-###### Installation
-```
-$ go install github.com/yael-castro/tic-tac-toe
+
+### Overview
+The popular xogo Tic-Tac-Toe written in Golang using bitmasks to represent the board, player moves and the xogo state.
+
+### How to use as library
+```shell
+go get github.com/yael-castro/xogo@latest
 ```
 
-###### How to play
-Once the game is installed you must execute the following command to start playing
+### How to play
+###### Install
+```shell
+go install github.com/yael-castro/xogo/cmd@latest
 ```
-$ tic-tac-toe
+###### Play
+```shell
+xogo
 ```

@@ -1,3 +1,3 @@
-module github.com/yael-castro/tic-tac-toe
+module github.com/yael-castro/xogo
 
 go 1.18
